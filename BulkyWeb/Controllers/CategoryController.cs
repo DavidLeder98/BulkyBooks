@@ -56,7 +56,6 @@ namespace BulkyWeb.Controllers
 
 		// - - EDIT EXISTING CATEGORY - -
 
-
 		// - - Edit Action - -
 		public IActionResult Edit(int? id)
 		{
@@ -72,7 +71,7 @@ namespace BulkyWeb.Controllers
 			return View(categoryFromDb);
 		}
 
-		// - - Process Edit - -
+		// - - Edit Method - -
 		[HttpPost]
 		public IActionResult Edit(Category obj)
 		{
@@ -85,5 +84,37 @@ namespace BulkyWeb.Controllers
 			return View();
 		}
 
+
+
+		// - - DELETE EXISTING CATEGORY - -
+
+		// - - Delete Action - -
+		public IActionResult Delete (int? id)
+		{
+			if (id == null || id == 0)
+			{
+				return NotFound();
+			}
+			Category? categoryFromDb = _db.Categories.Find(id);
+			if (categoryFromDb == null)
+			{
+				return NotFound();
+			}
+			return View(categoryFromDb);
+		}
+
+		// - - Delete Method - -
+		[HttpPost, ActionName("Delete")]
+		public IActionResult DeletePOST(int? id)
+		{
+			Category obj = _db.Categories.Find(id);
+			if (obj == null) 
+			{
+				return NotFound();
+			}
+			_db.Categories.Remove(obj);
+			_db.SaveChanges();
+			return RedirectToAction("Index");
+		}
 	}
 }
