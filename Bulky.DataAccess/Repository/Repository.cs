@@ -12,6 +12,8 @@ namespace Bulky.DataAccess.Repository
 {
 	public class Repository<T> : IRepository<T> where T : class
 	{
+		// - - CONSTRUCTOR - -
+
 		private readonly ApplicationDbContext _db;
 		internal DbSet<T> dbSet;
 		public Repository(ApplicationDbContext db)
@@ -20,6 +22,11 @@ namespace Bulky.DataAccess.Repository
 			this.dbSet = _db.Set<T>();
 			// it's the same as _db.Categories == dbSet
 		}
+
+
+
+		// - - BASIC METHODS - - 
+		// (Save and Update moved to CategoryRepository.cs) 
 
 		public void Add(T entity)
 		{
