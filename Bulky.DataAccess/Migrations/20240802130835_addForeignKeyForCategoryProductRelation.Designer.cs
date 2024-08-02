@@ -3,6 +3,7 @@ using Bulky.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240802130835_addForeignKeyForCategoryProductRelation")]
+    partial class addForeignKeyForCategoryProductRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,6 @@ namespace Bulky.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -119,7 +118,6 @@ namespace Bulky.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "A beginner's guide for aspiring heroes, the Enchiridion is packed with essential advice for new adventurers. Learn the basics of combat, survival, and questing, along with tips for navigating the world of heroes. This book is the perfect starting point for anyone looking to embark on a heroic journey.",
                             ISBN = "ENC1234567",
-                            ImageUrl = "",
                             ListPrice = 900.0,
                             Price = 850.0,
                             Price100 = 750.0,
@@ -133,7 +131,6 @@ namespace Bulky.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Dive into the dark arts with the Morellonomicon, a grimoire filled with forbidden spells and malevolent enchantments. This book is not for the faint-hearted, as it reveals the sinister paths of necromancy and demonology. Perfect for those who dare to harness the power of the shadows.",
                             ISBN = "MOR7654321",
-                            ImageUrl = "",
                             ListPrice = 500.0,
                             Price = 490.0,
                             Price100 = 400.0,
@@ -147,7 +144,6 @@ namespace Bulky.DataAccess.Migrations
                             CategoryId = 2,
                             Description = "Designed for novice warriors, this manual provides a thorough introduction to the art of sword fighting. It covers basic techniques, footwork, and defensive maneuvers to build a solid foundation. Master the fundamentals and prepare yourself for any battle with confidence.",
                             ISBN = "SWD1010101",
-                            ImageUrl = "",
                             ListPrice = 50.0,
                             Price = 45.0,
                             Price100 = 35.0,
@@ -161,7 +157,6 @@ namespace Bulky.DataAccess.Migrations
                             CategoryId = 2,
                             Description = "An essential handbook for aspiring spellcasters, Basics of Cantrips introduces readers to the simplest and most practical spells. This guide covers a variety of everyday enchantments, perfect for beginners looking to hone their magical skills. Start your journey into the magical arts with ease.",
                             ISBN = "BOC4445444",
-                            ImageUrl = "",
                             ListPrice = 100.0,
                             Price = 90.0,
                             Price100 = 70.0,
@@ -175,7 +170,6 @@ namespace Bulky.DataAccess.Migrations
                             CategoryId = 3,
                             Description = "Explore the mysterious and dangerous creatures that inhabit the Black Woods with this detailed bestiary. Each entry provides descriptions, habits, and weaknesses of the forest's denizens, from the elusive Shadow Stalker to the fearsome Night Terror. Equip yourself with the knowledge to survive and thrive in the dark wilderness.",
                             ISBN = "BBW1122448",
-                            ImageUrl = "",
                             ListPrice = 30.0,
                             Price = 29.0,
                             Price100 = 25.0,
@@ -189,7 +183,6 @@ namespace Bulky.DataAccess.Migrations
                             CategoryId = 3,
                             Description = "Navigate the moral dilemmas of adventuring with this updated guide on ethical behavior in the field. This edition covers new scenarios and offers advice on maintaining honor and integrity. A crucial resource for any adventurer committed to doing the right thing, even in the face of peril.",
                             ISBN = "AEE3333333",
-                            ImageUrl = "",
                             ListPrice = 15.0,
                             Price = 14.0,
                             Price100 = 12.0,
