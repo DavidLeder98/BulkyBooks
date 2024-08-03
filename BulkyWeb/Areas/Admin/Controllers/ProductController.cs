@@ -25,7 +25,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 
 
-        // - - SHOW ALL CATEGORIES - -
+        // - - SHOW ALL PRODUCTS - -
 
         public IActionResult Index()
         {
@@ -36,7 +36,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 
 
-        // - - CREATE NEW CATEGORY - -
+        // - - CREATE NEW PRODUCT - -
 
         // - - Update and Insert Action - -
         public IActionResult Upsert(int? id)
@@ -78,16 +78,37 @@ namespace BulkyWeb.Areas.Admin.Controllers
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath, @"images\product");
 
+					//delete old image
+					if (!string.IsNullOrEmpty(productVM.Product.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    //upload new image
                     using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
 
+                    //update imageUrl
                     productVM.Product.ImageUrl = @"\images\product\" + fileName;
                 }
 
                 //for everthing else
-                _unitOfWork.Product.Add(productVM.Product);
+                if (productVM.Product.Id == 0)
+                {
+                    _unitOfWork.Product.Add(productVM.Product);
+                }
+                else
+                {
+					_unitOfWork.Product.Update(productVM.Product);
+				}
+
                 _unitOfWork.Save();
                 TempData["success"] = "Product created successfully";
                 return RedirectToAction("Index");
@@ -106,7 +127,7 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
 
 
-        // - - DELETE EXISTING CATEGORY - -
+        // - - DELETE EXISTING PRODUCT - -
 
         // - - Delete Action - -
         public IActionResult Delete(int? id)
