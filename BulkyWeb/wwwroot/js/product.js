@@ -1,7 +1,11 @@
-﻿
-$(document).ready(function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
     loadDataTable();
 });
+
+
+//$(document).ready(function () {
+//    loadDataTable();
+//});
 
 function loadDataTable() {
     dataTable = $('#tblData').DataTable({
