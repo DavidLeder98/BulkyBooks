@@ -34,8 +34,8 @@ namespace BulkyWeb.Areas.Admin.Controllers
 
         // - - CREATE NEW CATEGORY - -
 
-        // - - Create Action - -
-        public IActionResult Create()
+        // - - Update and Insert Action - -
+        public IActionResult Upsert(int? id)
         {
             //instead of using viewbag or viewdata, this:
             ProductVM productVM = new()
@@ -47,12 +47,23 @@ namespace BulkyWeb.Areas.Admin.Controllers
 				}),
                 Product = new Product()
             };
-			return View(productVM);
+
+            if(id == null || id == 0)
+			{
+                //insert
+				return View(productVM);
+			}
+            else
+            {
+                //update
+                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id);
+				return View(productVM);
+			}
         }
 
-        // - - Create Method - -
+        // - - Update and Insert Method - -
         [HttpPost]
-        public IActionResult Create(ProductVM productVM)
+        public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -71,39 +82,6 @@ namespace BulkyWeb.Areas.Admin.Controllers
 				return View(productVM);
 			}
             
-        }
-
-
-
-        // - - EDIT EXISTING CATEGORY - -
-
-        // - - Edit Action - -
-        public IActionResult Edit(int? id)
-        {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            Product? productFromDb = _unitOfWork.Product.Get(u => u.Id == id);
-            if (productFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(productFromDb);
-        }
-
-        // - - Edit Method - -
-        [HttpPost]
-        public IActionResult Edit(Product obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _unitOfWork.Product.Update(obj);
-                _unitOfWork.Save();
-                TempData["success"] = "Product updated successfully";
-                return RedirectToAction("Index");
-            }
-            return View();
         }
 
 
